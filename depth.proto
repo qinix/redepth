@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message PriceLevel {
+  string price = 1;
+  string amount = 2;
+  uint64 order_count = 3;
+}
+
+message Depth {
+  repeated PriceLevel asks = 2;
+  repeated PriceLevel bids = 3;
+  uint64 change_id = 4;
+}
