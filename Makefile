@@ -15,7 +15,9 @@ endif
 
 PROTOC = protoc
 
-all: redepth.so
+all: protogen redepth.so
+
+protogen: depth.pb.cc
 
 redepth.so: depth.o depth.pb.o price_level.o redepth.o
 
