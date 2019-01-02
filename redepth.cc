@@ -57,15 +57,18 @@ bool RedisStringSideIsBid(const RedisModuleString *str) {
 }
 
 void *DepthTypeRdbLoad(RedisModuleIO *rdb, int encver) {
-    return new Depth(rdb, encver);
+    RedisModuleString *redis_string = RedisModule_LoadString(rdb);
+    return new Depth(NormalizeRedisString(redis_string));
 }
 
 void DepthTypeRdbSave(RedisModuleIO *rdb, void *value) {
-    static_cast<Depth*>(value)->rdb_save(rdb);
+    std::string str = static_cast<Depth*>(value)->to_protobuf();
+    RedisModule_SaveStringBuffer(rdb, str.data(), str.size());
 }
 
 void DepthTypeAofRewrite(RedisModuleIO *aof, RedisModuleString *key, void *value) {
-    static_cast<Depth*>(value)->aof_rewrite(aof, key);
+    std::string str = static_cast<Depth*>(value)->to_protobuf();
+    RedisModule_EmitAOF(aof, "REDEPTH.MERGE", "ss", key, str.c_str());
 }
 
 void DepthTypeFree(void *value) {
