@@ -17,17 +17,18 @@ public:
     typedef std::map<Decimal, PriceLevelPtr, std::less<Decimal>> BidLevelMap;
     typedef std::map<Decimal, PriceLevelPtr, std::greater<Decimal>> AskLevelMap;
 
-    static Depth *RdbLoad(RedisModuleIO *rdb, int encver);
+    Depth();
+    Depth(std::string pb);
+    Depth(RedisModuleIO *rdb, int encver);
     void rdb_save(RedisModuleIO *rdb);
     void aof_rewrite(RedisModuleIO *aof, RedisModuleString *key);
-    void digest(RedisModuleDigest *md);
 
-    int redis_add(RedisModuleCtx *ctx, RedisModuleString **argv, int argc);
-    int redis_fill(RedisModuleCtx *ctx, RedisModuleString **argv, int argc);
-    int redis_close(RedisModuleCtx *ctx, RedisModuleString **argv, int argc);
-    int redis_get(RedisModuleCtx *ctx, RedisModuleString **argv, int argc);
-    int redis_set(RedisModuleCtx *ctx, RedisModuleString **argv, int argc);
-    int redis_newchanges(RedisModuleCtx *ctx, RedisModuleString **argv, int argc);
+    void add(Decimal price, Decimal amount, bool is_bid);
+    void fill(Decimal price, Decimal filled_amount, bool is_bid, bool is_fully_filled);
+    void close(Decimal price, Decimal amount, bool is_bid);
+    void merge(Depth newdepth);
+    std::string newchanges(); // returns pb encoded Depth
+    std::string to_protobuf(uint64_t limit = 0); // returns pb encoded Depth
 
 private:
     BidLevelMap bids_;

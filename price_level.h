@@ -1,5 +1,7 @@
 #include "decimal.h"
 #include "depth.pb.h"
+#include <vector>
+#include <string>
 
 struct PriceLevel {
 public:
