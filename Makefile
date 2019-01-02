@@ -1,16 +1,15 @@
 HOST_SYSTEM = $(shell uname | cut -f 1 -d_)
 SYSTEM ?= $(HOST_SYSTEM)
-CXX = clang++
-CPPFLAGS += `pkg-config --cflags protobuf`
-CXXFLAGS += -std=c++17
-CXXFLAGS += -g
-CXXFLAGS += -I.
-LDFLAGS += -lc++ -L/usr/local/lib `pkg-config --libs-only-l --libs-only-L protobuf` -lboost_date_time -lboost_system -ldl
+CXXFLAGS += -g -I. -std=c++17
+LDFLAGS += -L/usr/local/lib -lprotobuf -lboost_date_time -lboost_system -ldl
 
 ifeq ($(SYSTEM),Darwin)
-LDFLAGS += -lSystem  -bundle -undefined dynamic_lookup
+LDFLAGS += -lSystem  -bundle -undefined dynamic_lookup -lc++
+CXX = clang++
 else
-LDFLAGS += -Wl,--no-as-needed -Wl,--as-needed -shared
+CXXFLAGS += -fPIC
+LDFLAGS += -Wl,--no-as-needed -Wl,--as-needed -shared -lstdc++
+CXX = g++
 endif
 
 PROTOC = protoc

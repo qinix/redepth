@@ -183,6 +183,8 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) 
                                  .rdb_load = DepthTypeRdbLoad,
                                  .rdb_save = DepthTypeRdbSave,
                                  .aof_rewrite = DepthTypeAofRewrite,
+                                 .mem_usage = NULL,
+                                 .digest = NULL,
                                  .free = DepthTypeFree,
     };
 
