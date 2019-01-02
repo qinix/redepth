@@ -17,7 +17,7 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends libprotobuf10 libboost-date-time-dev libboost-system-dev
 RUN mkdir -p "$LIBDIR";
 
-COPY --from=builder /redepth/redepth.so "$LIBDIR"
+COPY --from=builder /redepth/build/redepth.so "$LIBDIR"
 
 EXPOSE 6379
 CMD ["redis-server", "--loadmodule", "/usr/lib/redis/modules/redepth.so"]

@@ -1,6 +1,6 @@
 HOST_SYSTEM = $(shell uname | cut -f 1 -d_)
 SYSTEM ?= $(HOST_SYSTEM)
-CXXFLAGS += -g -I. -std=c++17
+CXXFLAGS += -g -Ibuild/ -std=c++17
 LDFLAGS += -L/usr/local/lib -lprotobuf -lboost_date_time -lboost_system -ldl
 
 ifeq ($(SYSTEM),Darwin)
@@ -13,18 +13,26 @@ CXX = g++
 endif
 
 PROTOC = protoc
+VPATH = src:build
+BUILDDIR = build
 
-all: protogen redepth.so
+all: dir protogen $(BUILDDIR)/redepth.so
 
-protogen: depth.pb.cc
+dir:
+	mkdir -p $(BUILDDIR)
 
-redepth.so: depth.o depth.pb.o price_level.o redepth.o
+protogen: $(BUILDDIR)/depth.pb.cc
 
-%.pb.cc: %.proto
-	$(PROTOC) --cpp_out=. $<
+$(BUILDDIR)/redepth.so: $(BUILDDIR)/depth.o $(BUILDDIR)/depth.pb.o $(BUILDDIR)/price_level.o $(BUILDDIR)/redepth.o
 
-%.so:
+$(BUILDDIR)/%.pb.cc: %.proto
+	$(PROTOC) --cpp_out=$(BUILDDIR) $<
+
+$(BUILDDIR)/%.so:
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
+$(BUILDDIR)/%.o: %.cc
+	$(CXX) -o $@ $< $(CXXFLAGS) -c
+
 clean:
-	rm -rf *.so *.o *.pb.cc *.pb.h  2> /dev/null || true
+	rm -rf build 2> /dev/null || true
