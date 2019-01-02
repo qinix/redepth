@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
 
   spec.add_dependency "redis"
+  spec.add_dependency "google-protobuf"
 end
