@@ -129,7 +129,7 @@ int DepthTypeClose_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, i
 int DepthTypeGet_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) {
     RedisModule_AutoMemory(ctx);
     if (argc != 2 && argc != 3) return RedisModule_WrongArity(ctx);
-    uint64_t limit = 0;
+    long long limit = 0;
 
     if (argc == 3 && RedisModule_StringToLongLong(argv[2], &limit) == REDISMODULE_ERR) {
         RedisModule_ReplyWithError(ctx, "Wrong limit");

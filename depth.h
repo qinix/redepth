@@ -1,7 +1,3 @@
-extern "C" {
-#include "redismodule.h"
-}
-
 #include <vector>
 #include <string>
 #include <map>
