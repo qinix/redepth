@@ -9,8 +9,7 @@ message PriceLevel {
 }
 
 message Depth {
-    repeated PriceLevel asks = 2;
-    repeated PriceLevel bids = 3;
-    uint64 change_id = 4;
-    string updated_at = 5;
+    repeated PriceLevel asks = 1;
+    repeated PriceLevel bids = 2;
+    string updated_at = 3;
 }
