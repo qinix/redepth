@@ -111,7 +111,7 @@ PriceLevelPtr Depth::at(Decimal price, bool is_bid) {
 }
 
 void Depth::remove_price_level_on_empty(PriceLevelPtr pl) {
-    if (pl->order_count == 0 && pl->amount == 0) {
+    if (pl->amount <= 0) {
         if (pl->is_bid) {
             bids_.erase(pl->price);
         } else {
