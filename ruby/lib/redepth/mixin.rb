@@ -33,8 +33,7 @@ module Redepth
     end
 
     def redepth_merge(key, depth)
-      raise ArgumentError unless depth.is_a?(Redepth::Proto::Depth)
-      data = Redepth::Depth.encode(depth)
+      data = Redepth::Proto::Depth.encode(depth)
       synchronize do |client|
         client.call([:'redepth.merge', data])
       end

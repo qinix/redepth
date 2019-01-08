@@ -9,7 +9,7 @@ message PriceLevel {
 }
 
 message Depth {
-    repeated PriceLevel asks = 1;
-    repeated PriceLevel bids = 2;
+    repeated PriceLevel bids = 1;
+    repeated PriceLevel asks = 2;
     string updated_at = 3;
 }

@@ -10,8 +10,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :order_count, :uint64, 3
   end
   add_message "redepth.Depth" do
-    repeated :asks, :message, 1, "redepth.PriceLevel"
-    repeated :bids, :message, 2, "redepth.PriceLevel"
+    repeated :bids, :message, 1, "redepth.PriceLevel"
+    repeated :asks, :message, 2, "redepth.PriceLevel"
     optional :updated_at, :string, 3
   end
 end
