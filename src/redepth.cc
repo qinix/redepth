@@ -152,7 +152,7 @@ int DepthTypeMerge_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, i
     Depth *depth = DepthTypeOpenKey(ctx, argv[1]);
     if (depth == NULL) return REDISMODULE_ERR;
 
-    Depth new_depth(NormalizeRedisString(argv[2]));
+    Depth new_depth(NormalizeRedisString(argv[2]), true);
     depth->merge(new_depth);
     RedisModule_ReplyWithSimpleString(ctx, "OK");
     return REDISMODULE_OK;

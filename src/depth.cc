@@ -110,9 +110,9 @@ PriceLevelPtr Depth::at(Decimal price, bool is_bid) {
     }
 }
 
-void Depth::remove_price_level_on_empty(PriceLevelPtr pl) {
+void Depth::remove_price_level_on_empty(PriceLevelPtr pl, bool is_bid) {
     if (pl->amount <= 0) {
-        if (pl->is_bid) {
+        if (is_bid) {
             bids_.erase(pl->price);
         } else {
             asks_.erase(pl->price);
@@ -124,6 +124,6 @@ void Depth::update_at(Decimal price, bool is_bid, const std::function<void(Price
     PriceLevelPtr pl = at(price, is_bid);
     block(pl);
     changes_.insert(pl);
-    remove_price_level_on_empty(pl);
+    if (!preserve_empty_pl_) remove_price_level_on_empty(pl, is_bid);
     updated_at_ = boost::posix_time::microsec_clock::universal_time();
 }

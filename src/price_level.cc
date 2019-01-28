@@ -7,7 +7,6 @@ void PriceLevel::serialize_to_protobuf(redepth::PriceLevel& pb) {
 }
 
 void PriceLevel::set(Decimal amount, uint64_t count) {
-    this->price = price;
     this->amount = amount;
     this->order_count = count;
 }
